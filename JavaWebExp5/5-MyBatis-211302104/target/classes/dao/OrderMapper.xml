@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="OrderMapper">
+	<!-- statement，内容：sql语句。id：唯一标识，随便写，在同一个命名空间下保持唯一 resultType：sql语句查询结果集的封装类型,order即为数据库中的表 -->
+
+	<select id="selectOrderByUser_id"  parameterType="int" resultMap="userOrder"><!-- order是sql关键字 -->
+		select * from `order` where user_id=#{user_id};
+	</select>
+	    <resultMap type="pojo.Order" id="userOrder">
+		<id property="order_id" column="order_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="product_id" column="product_id"/>
+	</resultMap>
+
+	<insert id="insertOrder" parameterType="pojo.Order"><!-- order是sql关键字 -->
+		INSERT INTO `order` (
+		order_id,
+		product_id,
+		user_id,
+		time
+		)
+		VALUES
+		(
+		#{order_id},
+		#{product_id},
+		#{user_id},
+		#{time}
+		);
+	</insert>
+
+	<delete id="deleteOrderById" parameterType="int"><!-- order是sql关键字 -->
+		delete from `order` where order_id=#{order_id}
+	</delete>
+</mapper>

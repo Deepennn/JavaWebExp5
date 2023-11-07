@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，随便写，一般保证命名空间唯一 -->
+<mapper namespace="UserMapper">
+	<!-- statement，内容：sql语句。id：唯一标识，随便写，在同一个命名空间下保持唯一 resultType：sql语句查询结果集的封装类型,user即为数据库中的表 -->
+
+	<!-- 根据userName查询一个用户信息 -->
+	<select id="selectUserByUserName" parameterType="String"
+		resultType="pojo.User">
+		select * from user where userName = #{userName};
+	</select>
+
+	<!-- 根据uid查询一个用户信息 -->
+	<select id="selectUserById" parameterType="int"
+		resultType="pojo.User">
+		select * from user where id = #{id};
+	</select>
+
+	<insert id="insertUser" parameterType="pojo.User">
+		INSERT INTO user (
+		id,
+		userName,
+		password
+		)
+		VALUES
+		(
+		#{id},
+		#{userName},
+		#{password}
+		);
+	</insert>
+
+	<update id="updateUser" parameterType="pojo.User">
+		UPDATE user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userName!=null">userName = #{userName},</if>
+			<if test="password!=null">password = #{password},</if>
+		</trim>
+		WHERE
+		(id = #{id});
+	</update>
+
+	<delete id="deleteUserById" parameterType="int">
+		delete from user where id=#{id}
+	</delete>
+</mapper>
